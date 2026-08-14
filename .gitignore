@@ -1,0 +1,12 @@
+node_modules/
+.wrangler/
+.dev.vars
+.env
+.env.*
+!.env.example
+*.log
+.superdesign/
+wrangler.*.jsonc
+backups/
+.DS_Store
+*.local.*

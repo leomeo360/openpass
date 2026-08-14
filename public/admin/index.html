@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OpenPass</title>
+    <link rel="icon" href="/admin/openpass-icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/admin/styles.css" />
+    <link rel="stylesheet" href="/admin/overrides.css?v=20260723-8" />
+    <link rel="stylesheet" href="/admin/refined.css?v=20260727-43" />
+    <link rel="stylesheet" href="/admin/deepseek-theme.css?v=20260814-1" />
+  </head>
+  <body>
+    <svg class="icon-sprite" aria-hidden="true">
+      <symbol id="i-overview" viewBox="0 0 24 24"><path d="M4 13h6V4H4v9Zm0 7h6v-4H4v4Zm10 0h6v-9h-6v9Zm0-16v4h6V4h-6Z"/></symbol>
+      <symbol id="i-projects" viewBox="0 0 24 24"><path d="M4 5h6l2 2h8v12H4V5Zm3 5v6m5-6v6m5-6v6"/></symbol>
+      <symbol id="i-provider" viewBox="0 0 24 24"><path d="M12 3 4 7v4c0 5 3.4 8.4 8 10 4.6-1.6 8-5 8-10V7l-8-4Zm-3 8h6m-3-3v6"/></symbol>
+      <symbol id="i-model" viewBox="0 0 24 24"><path d="M8 4h8v4h4v8h-4v4H8v-4H4V8h4V4Zm2 6h4v4h-4v-4Z"/></symbol>
+      <symbol id="i-price" viewBox="0 0 24 24"><path d="M5 4h14v16H5V4Zm3 4h8m-8 4h8m-8 4h5"/></symbol>
+      <symbol id="i-catalog" viewBox="0 0 24 24"><path d="M5 4h14v16H5V4Zm4 4h6M9 12h6m-6 4h4"/></symbol>
+      <symbol id="i-request" viewBox="0 0 24 24"><path d="M4 12h13m-4-5 5 5-5 5M7 5H4v14h3"/></symbol>
+      <symbol id="i-jobs" viewBox="0 0 24 24"><path d="M5 7h14v12H5V7Zm4-3h6v3H9V4Zm0 8h6m-3-3v6"/></symbol>
+      <symbol id="i-alert" viewBox="0 0 24 24"><path d="m12 3 9 17H3l9-17Zm0 6v5m0 3v.2"/></symbol>
+      <symbol id="i-settings" viewBox="0 0 24 24"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm0-5v3m0 12v3M3 12h3m12 0h3M5.6 5.6l2.1 2.1m8.6 8.6 2.1 2.1m0-12.8-2.1 2.1m-8.6 8.6-2.1 2.1"/></symbol>
+      <symbol id="i-audit" viewBox="0 0 24 24"><path d="M6 3h12v18H6V3Zm3 5h6m-6 4h6m-6 4h4"/></symbol>
+      <symbol id="i-docs" viewBox="0 0 24 24"><path d="M5 4h10l4 4v12H5V4Zm10 0v5h4M8 12h8m-8 4h8"/></symbol>
+      <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14.9-4M4 4v6h6M4 13a8 8 0 0 0 14.9 4M20 20v-6h-6"/></symbol>
+    </svg>
+    <aside class="sidebar">
+      <a class="brand" href="#overview" aria-label="OpenPass 总览">
+        <span class="openpass-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="11"/><path d="M16 9v14M11 16h10"/></svg>
+        </span>
+        <strong>OpenPass</strong>
+      </a>
+      <nav aria-label="后台导航">
+        <div class="nav-group">
+          <p>运营管理</p>
+          <a href="#overview" data-view="overview"><svg><use href="#i-overview"/></svg><span>总览</span></a>
+          <a href="#projects" data-view="projects"><svg><use href="#i-projects"/></svg><span>项目</span></a>
+          <a href="#requests" data-view="requests"><svg><use href="#i-request"/></svg><span>请求日志</span></a>
+          <a href="#jobs" data-view="jobs"><svg><use href="#i-jobs"/></svg><span>异步任务</span></a>
+          <a href="#alerts" data-view="alerts"><svg><use href="#i-alert"/></svg><span>告警中心</span></a>
+        </div>
+        <div class="nav-group">
+          <p>资源配置</p>
+          <a href="#provider_catalog" data-view="provider_catalog"><svg><use href="#i-catalog"/></svg><span>全部供应商</span></a>
+          <a href="#models" data-view="models"><svg><use href="#i-model"/></svg><span>全部模型</span></a>
+          <a href="#model_entries" data-view="model_entries"><svg><use href="#i-model"/></svg><span>模型入口</span></a>
+          <a href="#providers" data-view="providers"><svg><use href="#i-provider"/></svg><span>我的供应商</span></a>
+        </div>
+        <div class="nav-group">
+          <p>系统设置</p>
+          <a href="#settings" data-view="settings"><svg><use href="#i-settings"/></svg><span>系统设置</span></a>
+          <a href="#audit" data-view="audit"><svg><use href="#i-audit"/></svg><span>操作审计</span></a>
+        </div>
+        <div class="nav-group nav-docs">
+          <a href="#docs" data-view="docs"><svg><use href="#i-docs"/></svg><span>调用文档</span></a>
+        </div>
+      </nav>
+      <div class="sidebar-note"><i></i><span>Cloudflare Access 已保护</span></div>
+    </aside>
+    <main>
+      <header>
+        <div><h1 id="title">总览</h1></div>
+        <div class="header-actions">
+          <select id="locale-select" class="locale-select" aria-label="界面语言">
+            <option value="zh-CN">中文</option>
+            <option value="en">English</option>
+          </select>
+          <button id="logout-button" class="ghost logout-button" type="button" hidden>退出登录</button>
+          <button id="refresh-view" class="icon-button refresh-button" type="button" title="刷新当前页面" aria-label="刷新当前页面"><svg><use href="#i-refresh"/></svg></button>
+        </div>
+      </header>
+      <section id="app" aria-live="polite"><div class="loading">加载中…</div></section>
+    </main>
+    <dialog id="modal">
+      <aside class="modal-rail">
+        <button class="close" type="button" aria-label="关闭"><span aria-hidden="true"></span></button>
+        <nav id="modal-nav" class="modal-nav" aria-label="弹框内容导航"></nav>
+      </aside>
+      <div class="modal-main"><div id="modal-content"></div></div>
+    </dialog>
+    <div id="toast-region" class="toast-region" aria-live="polite" aria-atomic="true"></div>
+    <script type="module" src="/admin/app.js?v=20260727-43"></script>
+  </body>
+</html>

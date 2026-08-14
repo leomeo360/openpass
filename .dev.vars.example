@@ -1,0 +1,19 @@
+# Local development defaults to AUTH_MODE=none through `npm run dev`.
+# Never copy real values into this example or wrangler.jsonc.
+CREDENTIAL_ENCRYPTION_KEY=replace-with-base64-encoded-32-byte-key
+
+# Optional local password-login test:
+# AUTH_MODE=password
+# ADMIN_USERNAME=admin
+# ADMIN_PASSWORD_HASH=pbkdf2_sha256$210000$replace-salt$replace-hash
+# AUTH_SESSION_SECRET=replace-with-at-least-32-random-characters
+
+# Optional local Google/GitHub registration and login:
+# AUTH_MODE=oauth
+# REGISTRATION_ENABLED=true
+# OAUTH_PUBLIC_ORIGIN=http://localhost:3103
+# AUTH_SESSION_SECRET=replace-with-at-least-32-random-characters
+# GOOGLE_CLIENT_ID=replace-with-google-client-id
+# GOOGLE_CLIENT_SECRET=replace-with-google-client-secret
+# GITHUB_CLIENT_ID=replace-with-github-client-id
+# GITHUB_CLIENT_SECRET=replace-with-github-client-secret

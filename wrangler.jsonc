@@ -1,0 +1,53 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "openpass",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-07-23",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "html_handling": "none",
+    "run_worker_first": ["/admin", "/admin/*", "/api/auth/callback/google"]
+  },
+  "vars": {
+    "ENVIRONMENT": "production",
+    "AUTH_MODE": "access",
+    "REGISTRATION_ENABLED": "true",
+    "ADMIN_EMAILS": "admin@example.com",
+    "ADMIN_USERNAME": "admin",
+    "MAX_REQUEST_BODY_BYTES": "2097152"
+  },
+  "secrets": {
+    "required": ["CREDENTIAL_ENCRYPTION_KEY"]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "openpass",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "PROJECT_LIMITER",
+        "class_name": "ProjectLimiter"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["ProjectLimiter"]
+    }
+  ],
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  },
+  "triggers": {
+    "crons": ["*/5 * * * *"]
+  }
+}

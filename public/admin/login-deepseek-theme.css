@@ -1,0 +1,103 @@
+:root {
+  color-scheme: light;
+  color: #172033;
+  background: #f4f7fb;
+}
+
+body {
+  background:
+    radial-gradient(circle at 48% 0%, #ffffff 0, rgba(255, 255, 255, .78) 24%, transparent 58%),
+    #f4f7fb;
+}
+
+body > main {
+  overflow: hidden;
+  border: 1px solid #d8e0ea;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 20px 54px rgba(15, 23, 42, .1);
+}
+
+body > main > aside {
+  border-right-color: #d8e0ea;
+  background: #f8fafc;
+}
+
+.brand { color: #172033; }
+.brand img { width: 38px; height: 38px; border-radius: 9px; }
+
+.mode {
+  border: 1px solid #d6e1f2;
+  border-radius: 12px;
+  background: #eaf1ff;
+  color: #1d3b96;
+}
+
+.mode small { color: #526a93; }
+section { background: #fff; }
+h1 { color: #172033; }
+p { color: #64748b; }
+label { color: #475569; }
+
+input {
+  border-color: #8492a6;
+  border-radius: 7px;
+  background: #fff;
+  color: #172033;
+}
+
+input::placeholder { color: #64748b; opacity: 1; }
+input:focus {
+  outline: 3px solid rgba(49, 95, 222, .22);
+  outline-offset: 0;
+  border-color: #315fde;
+}
+
+:where(a, button, input):focus-visible {
+  outline: 3px solid #315fde;
+  outline-offset: 2px;
+}
+
+button {
+  border-radius: 7px;
+  background: #315fde;
+  color: #fff;
+}
+
+button:hover { background: #2448b8; }
+.error { border-color: #efb8c1; background: #fdecee; color: #b42336; }
+.notice { border-color: #b9dacb; background: #e7f6ee; color: #166b4d; }
+
+.access-card a,
+.oauth-button {
+  border-color: #8492a6;
+  border-radius: 7px;
+  background: #fff;
+  color: #172033;
+}
+
+.oauth-button:hover,
+.access-card a:hover { border-color: #8eafe8; background: #f5f8ff; color: #1d3b96; }
+.one-tap-slot small,
+.foot { color: #64748b; }
+.oauth-divider { color: #64748b; }
+.oauth-divider::before,
+.oauth-divider::after { background: #d8e0ea; }
+.oauth-card.hybrid { border-top-color: #d8e0ea; }
+
+@media (max-width: 700px) {
+  body { padding: 12px; }
+  body > main { border-radius: 12px; }
+  body > main > aside { padding: 22px; border-right: 0; border-bottom-color: #d8e0ea; }
+  .mode { margin-top: 18px; }
+  section { padding: 30px 22px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}

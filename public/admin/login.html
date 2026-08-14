@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>登录 · OpenPass</title>
+    <link rel="icon" href="/admin/openpass-icon.svg" type="image/svg+xml" />
+    <style>
+      :root{color-scheme:light;font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#172033;background:#f4f6f9}
+      *{box-sizing:border-box}body{min-height:100vh;margin:0;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at 50% 10%,#fff 0,#f4f6f9 56%)}
+      main{display:grid;grid-template-columns:290px minmax(0,440px);width:min(850px,100%);min-height:550px;overflow:hidden;border:1px solid #d6dbe2;border-radius:30px;background:#fff;box-shadow:0 24px 70px rgba(15,23,42,.12)}
+      aside{display:flex;flex-direction:column;padding:42px 34px;border-right:1px solid #e5e7eb;background:#fbfbfc}.brand{display:flex;align-items:center;gap:12px;color:#172033;text-decoration:none;font-size:20px;font-weight:750}
+      .brand img{width:38px;height:38px}.mode{margin-top:76px;padding:15px;border-radius:17px;background:#f0f1f3;color:#111;font-size:16px;font-weight:650}.mode small{display:block;margin-top:3px;color:#7a8492;font-size:12px;font-weight:500}
+      section{align-self:center;padding:48px 46px}h1{margin:0 0 9px;font-size:30px;letter-spacing:-.03em}p{margin:0 0 28px;color:#7b8491}
+      form{display:grid;gap:17px}label{display:grid;gap:7px;color:#495568;font-size:13px;font-weight:650}input{width:100%;min-height:46px;padding:10px 12px;border:1px solid #cfd7e2;border-radius:10px;background:#fff;color:#172033;font:inherit}
+      input:focus{outline:3px solid rgba(37,99,235,.13);border-color:#6c9ae1}button{min-height:46px;border:0;border-radius:10px;background:#2563eb;color:#fff;font:inherit;font-weight:750;cursor:pointer}button:disabled{opacity:.55;cursor:wait}
+      .error{display:none;margin:0;padding:11px 12px;border:1px solid #efb8c0;border-radius:9px;background:#fff1f3;color:#b42336;font-size:13px}.error:not(:empty){display:block}
+      .access-card,.oauth-card{display:none}.access-card a,.oauth-button{display:flex;align-items:center;justify-content:center;gap:10px;min-height:46px;border:1px solid #cfd7e2;border-radius:10px;background:#fff;color:#172033;text-decoration:none;font-weight:700}
+      .oauth-actions{display:grid;gap:12px}.oauth-button:hover{border-color:#8fa8cc;background:#f8faff}.oauth-button svg{width:20px;height:20px}.oauth-button[hidden]{display:none}
+      .one-tap-slot{display:grid;justify-items:center;gap:7px;width:100%;padding:2px 0 4px}.one-tap-slot[hidden]{display:none}.one-tap-slot small{color:#7b8491;font-size:11px}.one-tap-button{width:100%;min-height:44px;text-align:center}
+      .oauth-divider{display:flex;align-items:center;gap:10px;color:#9aa3af;font-size:11px}.oauth-divider::before,.oauth-divider::after{height:1px;flex:1;background:#e5e7eb;content:""}.oauth-divider[hidden]{display:none}
+      .oauth-card.hybrid{margin-top:30px;padding-top:26px;border-top:1px solid #e5e7eb}.oauth-card.hybrid h1{font-size:21px}.oauth-card.hybrid p{margin-bottom:18px}
+      .notice{display:none;margin:0 0 18px;padding:12px 13px;border:1px solid #a9d5bc;border-radius:9px;background:#edf9f2;color:#17663a;font-size:13px}.notice:not(:empty){display:block}
+      .foot{margin-top:26px;color:#9aa3af;font-size:12px}@media(max-width:700px){main{grid-template-columns:1fr;min-height:0}.mode{margin-top:26px}aside{padding:26px;border-right:0;border-bottom:1px solid #e5e7eb}section{padding:34px 26px}}
+    </style>
+    <link rel="stylesheet" href="/admin/login-deepseek-theme.css?v=20260814-1" />
+  </head>
+  <body>
+    <main>
+      <aside>
+        <a class="brand" href="/"><img src="/admin/openpass-icon.svg" alt="" />OpenPass</a>
+        <div class="mode" id="mode-label">正在检查登录方式…<small>Authentication</small></div>
+      </aside>
+      <section>
+        <div id="password-card" hidden>
+          <h1>登录管理后台</h1>
+          <p>使用部署时配置的管理员账号登录。</p>
+          <p id="login-error" class="error" role="alert"></p>
+          <form id="login-form">
+            <label>账号<input name="username" autocomplete="username" required autofocus /></label>
+            <label>密码<input name="password" type="password" autocomplete="current-password" required /></label>
+            <button type="submit">登录</button>
+          </form>
+          <div class="foot">会话使用 HttpOnly 签名 Cookie 保存，密码不会写入浏览器存储。</div>
+        </div>
+        <div id="access-card" class="access-card">
+          <h1>Cloudflare Access</h1>
+          <p>此部署由 Cloudflare Access 负责身份验证。继续后将进入组织配置的登录流程。</p>
+          <a href="/admin/">继续登录</a>
+          <div class="foot">可在 Cloudflare Zero Trust 中配置邮箱验证码或其他身份提供商。</div>
+        </div>
+        <div id="oauth-card" class="oauth-card">
+          <h1>注册或登录</h1>
+          <p>首次登录会自动创建 OpenPass 账号，之后可直接使用同一身份登录。</p>
+          <p id="oauth-notice" class="notice" role="status"></p>
+          <p id="oauth-error" class="error" role="alert"></p>
+          <div class="oauth-actions">
+            <div id="google-one-tap" class="one-tap-slot" hidden>
+              <div id="g_id_onload"></div>
+              <div id="google-one-tap-button" class="g_id_signin one-tap-button" data-type="standard" data-theme="outline" data-size="large" data-text="continue_with" data-shape="rectangular" data-logo_alignment="left"></div>
+              <small>Google One Tap 快速登录</small>
+            </div>
+            <div id="google-oauth-divider" class="oauth-divider" hidden>或使用 OAuth</div>
+            <a id="google-login" class="oauth-button" href="/admin/auth/oauth/google/start" hidden>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285f4" d="M21.6 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.4a4.6 4.6 0 0 1-2 3v2.5h3.2c1.9-1.7 3-4.3 3-7.3Z"/><path fill="#34a853" d="M12 22c2.7 0 5-.9 6.6-2.4L15.4 17c-.9.6-2 1-3.4 1a5.8 5.8 0 0 1-5.4-4H3.3v2.6A10 10 0 0 0 12 22Z"/><path fill="#fbbc05" d="M6.6 14a6 6 0 0 1 0-3.9V7.5H3.3a10 10 0 0 0 0 9.1L6.6 14Z"/><path fill="#ea4335" d="M12 6c1.5 0 2.8.5 3.8 1.5l2.9-2.8A9.7 9.7 0 0 0 3.3 7.5l3.3 2.6A5.8 5.8 0 0 1 12 6Z"/></svg>
+              使用 Google 账号继续
+            </a>
+            <a id="github-login" class="oauth-button" href="/admin/auth/oauth/github/start" hidden>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .7a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.2.8-.5v-2.2c-3.3.7-4-1.4-4-1.4-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.6.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.5.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.8 5.4-5.5 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5A11.5 11.5 0 0 0 12 .7Z"/></svg>
+              使用 GitHub 账号继续
+            </a>
+          </div>
+          <div class="foot">账号注册不等于后台授权；管理员会按邮箱分配全局或项目权限。</div>
+        </div>
+      </section>
+    </main>
+    <script type="module">
+      const modeLabel=document.querySelector('#mode-label');
+      const passwordCard=document.querySelector('#password-card');
+      const accessCard=document.querySelector('#access-card');
+      const oauthCard=document.querySelector('#oauth-card');
+      const errorBox=document.querySelector('#login-error');
+      try{
+        const response=await fetch('/admin/auth/config',{cache:'no-store'});
+        const config=await response.json();
+        const passwordEnabled=['password','hybrid'].includes(config.mode);
+        const oauthEnabled=['oauth','hybrid'].includes(config.mode);
+        if(config.mode==='hybrid'){
+          modeLabel.innerHTML='多方式登录<small>Password · Google · GitHub</small>';
+        }else if(config.mode==='password'){
+          modeLabel.innerHTML='账号密码登录<small>Password authentication</small>';
+        }else if(config.mode==='oauth'){
+          modeLabel.innerHTML='社交账号登录<small>Google · GitHub</small>';
+        }
+        if(passwordEnabled){
+          passwordCard.hidden=false;
+          if(!config.password_configured)errorBox.textContent='管理员密码或会话密钥尚未配置，请部署者检查 Worker Secrets。';
+        }
+        if(oauthEnabled){
+          oauthCard.style.display='block';
+          if(config.mode==='hybrid'){
+            oauthCard.classList.add('hybrid');
+            oauthCard.querySelector('h1').textContent='或使用社交账号';
+            oauthCard.querySelector('p').textContent='使用已配置的 Google 或 GitHub 账号继续。';
+          }
+          document.querySelector('#google-login').hidden=!config.providers?.google;
+          document.querySelector('#github-login').hidden=!config.providers?.github;
+          if(config.one_tap?.enabled){
+            try{
+              await enableGoogleOneTap(config.one_tap);
+            }catch{
+              document.querySelector('#oauth-error').textContent='Google One Tap 暂时无法加载，可使用下方 Google OAuth 登录。';
+            }
+          }
+          const params=new URLSearchParams(location.search);
+          if(params.get('pending')==='1'){
+            document.querySelector('#oauth-notice').textContent='账号已注册并成功登录，当前邮箱尚未分配项目权限。请联系管理员授权。';
+          }
+          if(params.get('error')){
+            document.querySelector('#oauth-error').textContent='第三方登录未完成，请重新尝试。';
+          }else if(!config.oauth_configured){
+            document.querySelector('#oauth-error').textContent='Google 或 GitHub 登录凭证尚未配置，请部署者检查 Worker Secrets。';
+          }
+        }
+        if(config.mode==='access'){
+          modeLabel.innerHTML='Cloudflare Access<small>Zero Trust authentication</small>';
+          accessCard.style.display='block';
+        }else if(!passwordEnabled&&!oauthEnabled){
+          location.replace('/admin/');
+        }else{
+          document.querySelector('#login-form button').disabled=!config.password_configured;
+        }
+      }catch{
+        passwordCard.hidden=false;
+        errorBox.textContent='无法读取登录配置，请稍后重试。';
+      }
+      async function enableGoogleOneTap(config){
+        const slot=document.querySelector('#google-one-tap');
+        const onload=document.querySelector('#g_id_onload');
+        const button=document.querySelector('#google-one-tap-button');
+        onload.setAttribute('data-client_id',config.client_id);
+        onload.setAttribute('data-login_uri',config.login_uri);
+        onload.setAttribute('data-nonce',config.nonce);
+        onload.setAttribute('data-context','signin');
+        onload.setAttribute('data-ux_mode','redirect');
+        onload.setAttribute('data-auto_prompt','true');
+        onload.setAttribute('data-auto_select','false');
+        onload.setAttribute('data-cancel_on_tap_outside','false');
+        onload.setAttribute('data-itp_support','true');
+        onload.setAttribute('data-use_fedcm_for_prompt','true');
+        slot.hidden=false;
+        button.setAttribute('data-width',String(Math.min(320,Math.max(220,slot.clientWidth||320))));
+        document.querySelector('#google-oauth-divider').hidden=false;
+        try{
+          await loadGoogleIdentity();
+        }catch(error){
+          slot.hidden=true;
+          document.querySelector('#google-oauth-divider').hidden=true;
+          throw error;
+        }
+      }
+      function loadGoogleIdentity(){
+        return new Promise((resolve,reject)=>{
+          const script=document.createElement('script');
+          script.src='https://accounts.google.com/gsi/client';script.async=true;script.defer=true;script.dataset.googleIdentity='true';
+          script.referrerPolicy='strict-origin-when-cross-origin';
+          const timeout=setTimeout(()=>{script.remove();reject(new Error('Google Identity Services timed out.'));},10000);
+          script.addEventListener('load',()=>{clearTimeout(timeout);resolve();},{once:true});
+          script.addEventListener('error',()=>{clearTimeout(timeout);reject(new Error('Google Identity Services failed to load.'));},{once:true});
+          document.head.append(script);
+        });
+      }
+      document.querySelector('#login-form').addEventListener('submit',async event=>{
+        event.preventDefault();errorBox.textContent='';
+        const button=event.currentTarget.querySelector('button');button.disabled=true;button.textContent='正在登录…';
+        const values=Object.fromEntries(new FormData(event.currentTarget));
+        try{
+          const response=await fetch('/admin/auth/login',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(values)});
+          const data=await response.json().catch(()=>({}));
+          if(!response.ok)throw new Error(data.error?.message||'登录失败，请检查账号和密码。');
+          location.replace('/admin/');
+        }catch(error){
+          errorBox.textContent=error.message;
+          button.disabled=false;button.textContent='登录';
+        }
+      });
+    </script>
+  </body>
+</html>

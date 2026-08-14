@@ -1,0 +1,77 @@
+:root{color-scheme:dark;--bg:#0b1020;--panel:#141b2d;--panel2:#19233a;--line:#27344d;--text:#eef3fb;--muted:#9ba9c1;--blue:#7c9cff;--green:#43d19e;--yellow:#f6c85f;--red:#ff7186}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;display:flex;min-height:100vh}
+aside{width:240px;border-right:1px solid var(--line);padding:24px 14px;position:fixed;inset:0 auto 0 0;background:#0d1424}
+.brand{color:#fff;text-decoration:none;font-weight:760;font-size:19px;display:flex;gap:8px;align-items:center;padding:6px 10px 30px}
+.brand span{display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#8da3ff,#7157e9);font-size:12px}
+nav{display:grid;gap:3px}
+nav a{color:var(--muted);padding:10px 12px;text-decoration:none;border-radius:8px;font-weight:600}
+nav a:hover,nav a.active{background:var(--panel2);color:#fff}
+.sidebar-note{position:absolute;bottom:24px;color:var(--muted);font-size:12px;padding:0 10px;max-width:210px}
+main{margin-left:240px;width:calc(100% - 240px);padding:32px 40px}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px}
+.eyebrow{font-size:11px;letter-spacing:.14em;color:var(--blue);font-weight:800;margin:0 0 5px}
+h1{font-size:28px;margin:0;letter-spacing:-.03em}
+.health{border:1px solid #275842;color:#a2eed0;background:#102c24;border-radius:100px;padding:7px 11px;font-size:12px}
+.health i{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);margin-right:5px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.card,.table-wrap,.form-card{background:var(--panel);border:1px solid var(--line);border-radius:12px}
+.card{padding:17px}
+.card p{color:var(--muted);margin:0 0 10px}
+.card strong{font-size:25px;letter-spacing:-.04em}
+.section{margin-top:24px}
+.section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.section-head h2{font-size:16px;margin:0}
+.table-wrap{overflow:auto}
+table{width:100%;border-collapse:collapse;white-space:nowrap}
+th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line)}
+th{font-size:11px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+tr:last-child td{border-bottom:0}
+.status{font-size:12px;font-weight:750;padding:3px 8px;border-radius:999px;background:#26324a;color:#c5d0e6}
+.status.active,.status.succeeded{color:#9ceaca;background:#15372b}
+.status.disabled,.status.failed,.status.rejected{color:#ffadba;background:#3c1e2a}
+.status.paused{color:#f9d580;background:#3b3016}
+button{border:0;border-radius:8px;background:var(--blue);color:white;padding:9px 12px;font:inherit;font-weight:700;cursor:pointer}
+button.ghost{background:transparent;border:1px solid var(--line);color:var(--text)}
+button.danger{background:var(--red)}
+dialog{border:1px solid var(--line);padding:0;border-radius:14px;max-width:520px;width:calc(100% - 32px);background:var(--panel);color:var(--text)}
+dialog::backdrop{background:rgba(3,7,18,.72)}
+#modal-content{padding:24px}
+.close{position:absolute;top:10px;right:10px;background:transparent;color:var(--muted);font-size:24px;padding:2px 9px}
+.form-card{padding:0;border:0}
+.form-card h2{margin:0 0 18px}
+.fields{display:grid;gap:12px}
+.fields label{display:grid;gap:5px;font-size:12px;color:var(--muted);font-weight:650}
+.fields .check{display:flex;align-items:center;gap:7px}
+.fields fieldset{border:1px solid var(--line);border-radius:8px;padding:10px;display:grid;gap:7px}
+.fields legend{color:var(--muted);font-size:12px}
+.fields input,.fields select,.fields textarea{background:#0b1120;border:1px solid var(--line);color:var(--text);border-radius:8px;padding:9px;font:inherit}
+.form-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}
+.loading,.empty{color:var(--muted);padding:32px;text-align:center}
+.notice{padding:13px;background:#21305a;border:1px solid #3b52a0;border-radius:9px;margin:10px 0}
+.metric-label{color:var(--muted);font-size:12px}
+.row-actions{display:flex;gap:7px}
+@media(max-width:900px){aside{width:64px;padding:20px 8px}
+.brand{font-size:0;padding:4px 8px 24px}
+.brand span{font-size:11px}
+.sidebar-note{display:none}
+nav a{font-size:0;height:40px}
+nav a::first-letter{font-size:14px}
+main{margin-left:64px;width:calc(100% - 64px);padding:24px 18px}
+.grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:560px){header{align-items:flex-start;gap:12px}
+.health{display:none}
+.grid{grid-template-columns:1fr}
+main{padding:22px 12px}
+}
+
+/* Shared pagers keep all administrative lists compact and readable. */
+.pagination{display:flex;align-items:center;justify-content:flex-end;gap:12px;flex-wrap:wrap;margin:16px 0 8px;color:var(--muted);font-size:13px}
+.pagination>div{display:flex;gap:6px}
+.pagination label{display:flex;align-items:center;gap:5px;white-space:nowrap}
+.pagination select{min-width:68px;padding:7px 26px 7px 9px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--text);font:inherit}
+.pagination .list-page{min-width:36px;padding:7px 10px}
+.pagination .list-page.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.pagination button:disabled{cursor:not-allowed;opacity:.45}
+@media(max-width:640px){.pagination{justify-content:flex-start}.pagination>span{width:100%}}

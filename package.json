@@ -1,0 +1,21 @@
+{
+  "name": "openpass",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --var ENVIRONMENT:development --var AUTH_MODE:none --var ADMIN_EMAILS: --port 3103",
+    "deploy": "wrangler deploy",
+    "password:hash": "node scripts/generate-password-hash.mjs",
+    "check": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "types": "wrangler types"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.21.3",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.10",
+    "wrangler": "^4.123.0"
+  }
+}
